@@ -1,0 +1,4 @@
+./docker/extract
+./docker/FTBPresentsDirewolf20112Server.zip
+./ops.json
+./whitelist.json
