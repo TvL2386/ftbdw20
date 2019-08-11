@@ -1,0 +1,53 @@
+
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: mcserver
+  labels:
+    name: mcserver
+    app: mcserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: mcserver
+      app: mcserver
+  template:
+    metadata:
+      labels:
+        name: mcserver
+        app: mcserver
+    spec:
+      volumes:
+      - name: mcserver-data
+        persistentVolumeClaim:
+          claimName: mc3-pvc
+
+      terminationGracePeriodSeconds: 300
+
+      containers:
+      - name: mcserver
+        image: tvl2386/ftbdw20:2.5.0
+        imagePullPolicy: Always
+
+
+        tty: true
+        stdin: true
+
+        resources:
+          requests:
+            memory: "13Gi"
+          limits:
+            memory: "13Gi"
+
+        env:
+        - name: KUBE_MAX_RAM
+          value: "12G"
+
+        ports:
+        - containerPort: 25565
+        volumeMounts:
+        - mountPath: "/data"
+          name: mcserver-data
+
